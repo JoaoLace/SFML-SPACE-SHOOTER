@@ -10,6 +10,7 @@ void game::initWindow()
 void game::initPlayer()
 {
 	Player = new player();
+	enemy = new Enemy(20.f, 20.f);
 }
 
 void game::initTextures()
@@ -58,6 +59,7 @@ void game::update()
 {
 	pollEvents();
 	pollEventsPlayer();
+	Player->update();
 	updateBullets();
 }
 
@@ -71,6 +73,7 @@ void game::render()
 	{
 		bullet->render(window);
 	}
+	enemy->render(window);
 	window->display();
 }
 
@@ -105,17 +108,29 @@ void game::pollEventsPlayer()
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
 		Player->move(0.f, 1.f);
 
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && Player->canAttack() == true)
 	{
 		bullets.push_back(new bullet
-		(textures["BULLET"],Player->getPos().x, Player->getPos().y, 0.f, 0.f, 0.f));
+		(textures["BULLET"],Player->getPos().x + (Player->getGlobalBouncePlayer().width/2 - 12.6f)
+						   ,Player->getPos().y - (Player->getGlobalBouncePlayer().height/2)
+						   ,0.f, -1.f, 5.f));
 	}
 }
 
 void game::updateBullets()
 {
+	unsigned counter = 0;
 	for (auto* bullet : bullets)
 	{
 		bullet->update();
+
+		if (bullet->getBounds().top + bullet->getBounds().height < 0.f)
+		{
+			delete bullets.at(counter);
+			bullets.erase(bullets.begin() + counter);
+			--counter;
+		}
+		++counter;
 	}
 }
+

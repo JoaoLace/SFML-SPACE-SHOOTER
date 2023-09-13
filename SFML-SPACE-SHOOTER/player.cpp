@@ -12,9 +12,19 @@ void player::initSprite()
 	sprite.setTexture(texture);
 	sprite.scale(0.2f, 0.2f);
 }
+void player::initVaribles()
+{
+	moveSpeed = 2.f;
+	attackCooldownMax = 10.f;
+	attackCooldown = attackCooldownMax;
+}
 const sf::Vector2f& player::getPos() const
 {
 	return sprite.getPosition();
+}
+const sf::FloatRect player::getGlobalBouncePlayer() const
+{
+	return sprite.getGlobalBounds();
 }
 void player::move(const float dirX, float dirY)
 {
@@ -22,11 +32,28 @@ void player::move(const float dirX, float dirY)
 }
 void player::update()
 {
+	updateAttack();
+}
+void player::updateAttack()
+{
+	if (attackCooldown < attackCooldownMax)
+	{
+		attackCooldown += 0.5f;
+	}
+	
+}
+const bool player::canAttack()
+{
+	if (attackCooldown >= attackCooldownMax)
+	{
+		attackCooldown = 0.f;
+		return true;
+	}
+	return false;
 }
 player::player()
 {
-
-	moveSpeed = 2.f;
+	initVaribles();
 	initTexture();
 	initSprite();
 }

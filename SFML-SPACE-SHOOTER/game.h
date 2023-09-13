@@ -1,6 +1,7 @@
 #pragma once
 #include "player.h"
 #include "bullet.h"
+#include "Enemy.h"
 #include <map>
 class game
 {
@@ -12,6 +13,7 @@ private:
 	std::vector<bullet*> bullets;
 
 	player* Player;
+	Enemy* enemy;
 
 	void initWindow();
 	void initPlayer();
@@ -28,6 +30,7 @@ public:
 	void pollEvents();
 	void pollEventsPlayer();
 	void updateBullets();
+
 
 };
 
