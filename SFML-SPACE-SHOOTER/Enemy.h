@@ -4,17 +4,22 @@ class Enemy
 {
 private:
 	sf::CircleShape shape;
+	unsigned pointCount;
+	int speed;
 	int hp;
 	int hpMax;
 	int damage;
-	int points;
 	int type;
-
-	void initShape();
+	int points;
 	void initVariables();
+	void initShape();
 public:
 	Enemy(float posX, float posY);
 	virtual ~Enemy();
+
+	const sf::FloatRect getBounds() const;
+	const int& getPoints() const;
+	const int& getDamage() const;
 
 	void update();
 	void render(sf::RenderTarget* target);

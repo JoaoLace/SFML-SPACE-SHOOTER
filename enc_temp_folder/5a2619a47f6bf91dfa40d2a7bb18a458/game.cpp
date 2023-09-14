@@ -255,7 +255,7 @@ void game::updateEnemies()
 	{
 		enemy->update();
 
-		if (enemy->getBounds().top  > window->getSize().y)
+		if (enemy->getBounds().top + enemy->getBounds().height > window->getSize().y)
 		{
 			delete enemies.at(counter);
 			enemies.erase(enemies.begin() + counter);

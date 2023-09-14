@@ -255,17 +255,19 @@ void game::updateEnemies()
 	{
 		enemy->update();
 
-		if (enemy->getBounds().top  > window->getSize().y)
+		if (enemy->getBounds().top + enemy->getBounds().height > window->getSize().y)
 		{
 			delete enemies.at(counter);
 			enemies.erase(enemies.begin() + counter);
-
+			--counter;
 		}
 		else if (enemy->getBounds().intersects(Player->getGlobalBouncePlayer()))
 		{
 			Player->loseHp(enemies.at(counter)->getDamage());
 			delete enemies.at(counter);
 			enemies.erase(enemies.begin() + counter);
+			--counter;
+			
 		}
 
 		 ++counter;

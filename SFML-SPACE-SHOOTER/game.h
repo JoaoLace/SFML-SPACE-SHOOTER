@@ -3,6 +3,7 @@
 #include "bullet.h"
 #include "Enemy.h"
 #include <map>
+#include <sstream>
 class game
 {
 private:
@@ -13,12 +14,33 @@ private:
 	std::vector<bullet*> bullets;
 
 	player* Player;
-	Enemy* enemy;
+	std::vector<Enemy*> enemies;
+	float spawnTimer,spawnTimerMax;
 
+	sf::RectangleShape playerHpBar;
+	sf::RectangleShape playerHpBarBack;
+
+	// gui
+	sf::Font font;
+	sf::Text text;
+
+	// world
+	sf::Sprite worldBackground;
+	sf::Texture backgroundTexture;
+
+	// system
+	unsigned points;
+
+
+	void updateGui();
+	void renderGui();
+	void initGui();
 	void initWindow();
 	void initPlayer();
+	void initEnemies();
 	void initTextures();
 	void initVariables();
+	void initWorld();
 public:
 	game();
 	virtual ~game();
@@ -27,9 +49,14 @@ public:
 	void run();
 	void update();
 	void render();
+	void renderWorld();
+	void updateWorld();
 	void pollEvents();
 	void pollEventsPlayer();
 	void updateBullets();
+	void updateEnemies();
+	void updateCollision();
+	void updateCombat();
 
 
 };

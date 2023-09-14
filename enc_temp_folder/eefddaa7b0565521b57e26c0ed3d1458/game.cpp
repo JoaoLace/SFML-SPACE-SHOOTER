@@ -5,7 +5,7 @@ void game::updateGui()
 	ss << "SCORE: " << points;
 	text.setString(ss.str());
 
-	Player->setHp(100);
+	Player->setHp(5);
 	float hpPercent = static_cast<float>(Player->getHp()) / Player->getHpMax();
 	playerHpBar.setSize(sf::Vector2f(200.f * hpPercent, playerHpBar.getSize().y));
 
@@ -255,17 +255,18 @@ void game::updateEnemies()
 	{
 		enemy->update();
 
-		if (enemy->getBounds().top  > window->getSize().y)
+		if (enemy->getBounds().top + enemy->getBounds().height > window->getSize().y)
 		{
 			delete enemies.at(counter);
 			enemies.erase(enemies.begin() + counter);
-
+			--counter;
 		}
 		else if (enemy->getBounds().intersects(Player->getGlobalBouncePlayer()))
 		{
-			Player->loseHp(enemies.at(counter)->getDamage());
 			delete enemies.at(counter);
 			enemies.erase(enemies.begin() + counter);
+			--counter;
+			Player->loseHp(enemies.at(counter)->getDamage());
 		}
 
 		 ++counter;

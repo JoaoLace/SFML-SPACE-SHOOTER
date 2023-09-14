@@ -10,11 +10,14 @@ void player::initTexture()
 void player::initSprite()
 {
 	sprite.setTexture(texture);
-	sprite.scale(0.2f, 0.2f);
+	sprite.scale(0.3f, 0.3f);
 }
 void player::initVaribles()
 {
-	moveSpeed = 2.f;
+	hpMax= 100;
+	hp = hpMax;
+	points = 0;
+	moveSpeed = 3.f;
 	attackCooldownMax = 10.f;
 	attackCooldown = attackCooldownMax;
 }
@@ -26,6 +29,32 @@ const sf::FloatRect player::getGlobalBouncePlayer() const
 {
 	return sprite.getGlobalBounds();
 }
+
+const int& player::getHp() const
+{
+	return hp;
+}
+
+const int& player::getHpMax() const
+{
+	return hpMax;
+}
+
+void player::setPosition(float pos_x, float pos_y)
+{
+	sprite.setPosition(pos_x,pos_y);
+}
+
+void player::setHp(const int hp)
+{
+	this->hp = hp;
+}
+
+void player::loseHp(const int value)
+{
+	hp -= value;
+}
+
 void player::move(const float dirX, float dirY)
 {
 	sprite.move(moveSpeed * dirX, moveSpeed * dirY);

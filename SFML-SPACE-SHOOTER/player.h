@@ -12,9 +12,13 @@ private:
 	float attackCooldown;
 	float attackCooldownMax;
 
+
 	void initTexture();
 	void initSprite();
 	void initVaribles();
+
+	int hp;
+	int hpMax;
 public:
 	player();
 	virtual ~player();
@@ -22,7 +26,15 @@ public:
 	// acessors
 	const sf::Vector2f& getPos() const;
 	const sf::FloatRect getGlobalBouncePlayer() const;
+	const int& getHp() const;
+	const int& getHpMax() const;
 
+	// modificar
+	void setPosition(float pos_x, float pos_y);
+	void setHp(const int hp);
+	void loseHp(const int value);
+
+	int points;
 	void move(const float dirX, float dirY);
 	void update();
 	void updateAttack();
