@@ -6,6 +6,7 @@
 #include <map>
 #include <sstream>
 #include <SFML/Audio.hpp>
+#include <cmath>
 class game
 {
 private:
@@ -35,11 +36,15 @@ private:
 	// system
 	unsigned points;
 	sf::SoundBuffer buffer;
+	sf::Sound sound;
+	sf::SoundBuffer explosion;
+	sf::Sound soundExplosion;
 	void initSounds();
 
 	sf::Sprite inimigo;
 
 	Boss* boss;
+	float spawnBossTimer;
 	bool bossAlive = false;
 	bool bossAconteceu = false;
 

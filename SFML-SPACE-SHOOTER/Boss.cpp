@@ -36,7 +36,6 @@ void Boss::initVariables()
 
 void Boss::initSprite()
 {
-
 	texture.loadFromFile("Files/boss.png");
 	spite.setTexture(texture);
 	spite.setPosition(300.f, -10.f);

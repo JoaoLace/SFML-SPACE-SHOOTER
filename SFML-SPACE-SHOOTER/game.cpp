@@ -1,11 +1,21 @@
 #include "game.h"
+void game::initSounds()
+{
+	// "C:\Users\lacer\OneDrive\Área de Trabalho\repos\SFML-SPACE-SHOOTER\SFML-SPACE-SHOOTER\Files\gun.wav"
+	// "C:\Users\lacer\OneDrive\Área de Trabalho\repos\SFML-SPACE-SHOOTER\SFML-SPACE-SHOOTER\Files\sample.wav"
+	buffer.loadFromFile("Files/gun.wav");
+	sound.setBuffer(buffer);
+	sound.setVolume(20);
+
+	explosion.loadFromFile("Files/explodeSound.wav");
+	soundExplosion.setBuffer(explosion);
+	soundExplosion.setVolume(30);
+}
 void game::updateGui()
 {
 	std::stringstream ss;
 	ss << "SCORE: " << points;
 	text.setString(ss.str());
-
-	
 
 	float hpPercent = static_cast<float>(Player->getHp()) / Player->getHpMax();
 	playerHpBar.setSize(sf::Vector2f(200.f * hpPercent, playerHpBar.getSize().y));
@@ -32,8 +42,7 @@ void game::initGui()
 	gameOverText.setCharacterSize(60);
 	gameOverText.setPosition(200.f, 300.f);
 	gameOverText.setFillColor(sf::Color::Red);
-	gameOverText.setString("GAME OVER!");
-
+	gameOverText.setString("GAME OVER");
 
 	playerHpBar.setSize(sf::Vector2f(200.f, 20.f));
 	playerHpBar.setFillColor(sf::Color::Red);
@@ -79,6 +88,7 @@ void game::initTextures()
 void game::initVariables()
 {
 	points = 0;
+	spawnBossTimer = 100;
 }
 
 void game::initWorld()
@@ -93,6 +103,7 @@ game::game()
 {
 	initWindow();
 	initGui();
+	initSounds();
 	initTextures();
 	initVariables();
 	initPlayer();
@@ -147,8 +158,7 @@ void game::update()
 	updateCombat();
 	updateGui();
 	updateWorld();
-
-	if (points > 50 && bossAconteceu == false)
+	if (points > 100 && !bossAconteceu)
 	{
 		bossAlive = true;
 		boss->alive = true;
@@ -261,6 +271,7 @@ void game::pollEventsPlayer()
 		(textures["BULLET"],Player->getPos().x + (Player->getGlobalBouncePlayer().width/2 - 12.6f)
 						   ,Player->getPos().y - (Player->getGlobalBouncePlayer().height/2)
 						   ,0.f, -1.f, 5.f));
+		sound.play();
 	}
 }
 
@@ -322,15 +333,21 @@ void game::updateCombat()
 		{
 			if (enemies[i]->getBounds().intersects(bullets[k]->getBounds()))
 			{
+				enemies[i]->setSprite("Files/explode.png");
+
 				points += enemies[i]->getPoints();
+				
+				soundExplosion.play();
+				enemy_deleted = true;
+			}
+			if (enemy_deleted)
+			{
 				delete	enemies[i];
 				enemies.erase(enemies.begin() + i);
-
+				i--;
 				delete	bullets[k];
 				bullets.erase(bullets.begin() + k);
-
 				
-				enemy_deleted = true;
 			}
 			
 		}
@@ -361,6 +378,8 @@ void game::bossCombat()
 		//boss = nullptr;
 		bossAconteceu = true;
 		boss->setTexture();
+		points += 50;
+		soundExplosion.play();
 	}
 
 	if (boss->getBounds().intersects(Player->getGlobalBouncePlayer()))

@@ -57,6 +57,27 @@ const int& Enemy::getDamage() const
 	return damage;
 }
 
+sf::Sprite& Enemy::getSprite()
+{
+	return shape;
+	// TODO: inserir instrução return aqui
+}
+
+void Enemy::setSprite(const std::string& texturePath)
+{
+	sf::Texture* tex = new sf::Texture();
+	if (tex->loadFromFile(texturePath))
+	{
+		shape.setTexture(*tex);
+	}
+	else
+	{
+		// Lida com o erro ao carregar a textura
+		delete tex; // Libera a memória alocada para a textura
+	}
+}
+
+
 void Enemy::update()
 {
 	shape.move(0.f, speed);
@@ -64,5 +85,5 @@ void Enemy::update()
 
 void Enemy::render(sf::RenderTarget* target)
 {
-	target->draw(shape);
+	target->draw(getSprite());
 }

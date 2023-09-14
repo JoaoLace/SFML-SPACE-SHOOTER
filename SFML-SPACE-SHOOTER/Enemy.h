@@ -22,7 +22,8 @@ public:
 	const sf::FloatRect getBounds() const;
 	const int& getPoints() const;
 	const int& getDamage() const;
-
+	sf::Sprite& getSprite();
+	void setSprite(const std::string& texturePath);
 	void update();
 	void render(sf::RenderTarget* target);
 };
