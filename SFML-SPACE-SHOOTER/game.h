@@ -11,6 +11,7 @@ private:
 
 	// resources
 	std::map<std::string, sf::Texture*> textures;
+	std::map<int, sf::Texture*> enemyTexture;
 	std::vector<bullet*> bullets;
 
 	player* Player;
@@ -32,9 +33,11 @@ private:
 	// system
 	unsigned points;
 
+	sf::Sprite inimigo;
 
 	void updateGui();
 	void renderGui();
+	void initSpriteEnemy();
 	void initGui();
 	void initWindow();
 	void initPlayer();

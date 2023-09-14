@@ -3,7 +3,8 @@
 class Enemy
 {
 private:
-	sf::CircleShape shape;
+	std::map<int, sf::Texture*> enemyTexture;
+	sf::Sprite shape;
 	unsigned pointCount;
 	int speed;
 	int hp;
@@ -12,6 +13,7 @@ private:
 	int type;
 	int points;
 	void initVariables();
+
 	void initShape();
 public:
 	Enemy(float posX, float posY);

@@ -17,6 +17,7 @@ void game::renderGui()
 	window->draw(playerHpBarBack);
 	window->draw(playerHpBar);
 }
+
 void game::initGui()
 {
 	font.loadFromFile("Files/PixelEmulator-xq08.ttf");
@@ -162,7 +163,6 @@ void game::render()
 	{
 		window->draw(gameOverText);
 	}
-
 	window->display();
 }
 
