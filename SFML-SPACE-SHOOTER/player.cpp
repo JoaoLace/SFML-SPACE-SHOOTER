@@ -11,10 +11,11 @@ void player::initSprite()
 {
 	sprite.setTexture(texture);
 	sprite.scale(0.3f, 0.3f);
+	sprite.setPosition(300.f, 600.f);
 }
 void player::initVaribles()
 {
-	hpMax= 100;
+	hpMax= 10;
 	hp = hpMax;
 	points = 0;
 	moveSpeed = 3.f;

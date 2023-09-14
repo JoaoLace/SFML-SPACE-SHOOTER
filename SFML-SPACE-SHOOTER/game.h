@@ -23,6 +23,7 @@ private:
 	// gui
 	sf::Font font;
 	sf::Text text;
+	sf::Text gameOverText;
 
 	// world
 	sf::Sprite worldBackground;

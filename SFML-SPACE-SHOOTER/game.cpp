@@ -5,7 +5,8 @@ void game::updateGui()
 	ss << "SCORE: " << points;
 	text.setString(ss.str());
 
-	Player->setHp(100);
+	
+
 	float hpPercent = static_cast<float>(Player->getHp()) / Player->getHpMax();
 	playerHpBar.setSize(sf::Vector2f(200.f * hpPercent, playerHpBar.getSize().y));
 
@@ -24,6 +25,14 @@ void game::initGui()
 	text.setPosition(5.f, 0.f);
 	text.setFillColor(sf::Color::White);
 	text.setString("teset");
+
+
+	gameOverText.setFont(font);
+	gameOverText.setCharacterSize(60);
+	gameOverText.setPosition(200.f, 300.f);
+	gameOverText.setFillColor(sf::Color::Red);
+	gameOverText.setString("GAME OVER!");
+
 
 	playerHpBar.setSize(sf::Vector2f(200.f, 20.f));
 	playerHpBar.setFillColor(sf::Color::Red);
@@ -107,16 +116,20 @@ game::~game()
 // Functions
 void game::run()
 {
+
 	while (window->isOpen())
 	{
+		pollEvents();
+		
+		if (Player->getHp() > 0)
 		update();
+
 		render();
 	}
 }
 
 void game::update()
 {
-	pollEvents();
 	pollEventsPlayer();
 	Player->update();
 	updateCollision();
@@ -144,6 +157,12 @@ void game::render()
 		e->render(window);
 	}
 	renderGui();
+
+	if (Player->getHp() <= 0)
+	{
+		window->draw(gameOverText);
+	}
+
 	window->display();
 }
 
