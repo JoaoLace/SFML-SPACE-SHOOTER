@@ -51,7 +51,7 @@ void player::setHp(const int hp)
 	this->hp = hp;
 }
 
-void player::loseHp(const int value)
+void player::loseHp(const float value)
 {
 	hp -= value;
 }

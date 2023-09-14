@@ -32,7 +32,7 @@ public:
 	// modificar
 	void setPosition(float pos_x, float pos_y);
 	void setHp(const int hp);
-	void loseHp(const int value);
+	void loseHp(const float value);
 
 	int points;
 	void move(const float dirX, float dirY);

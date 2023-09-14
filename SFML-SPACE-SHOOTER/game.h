@@ -1,9 +1,11 @@
 #pragma once
+#include "Boss.h"
 #include "player.h"
 #include "bullet.h"
 #include "Enemy.h"
 #include <map>
 #include <sstream>
+#include <SFML/Audio.hpp>
 class game
 {
 private:
@@ -32,15 +34,21 @@ private:
 
 	// system
 	unsigned points;
+	sf::SoundBuffer buffer;
+	void initSounds();
 
 	sf::Sprite inimigo;
 
+	Boss* boss;
+	bool bossAlive = false;
+	bool bossAconteceu = false;
+
 	void updateGui();
 	void renderGui();
-	void initSpriteEnemy();
 	void initGui();
 	void initWindow();
 	void initPlayer();
+	void initBoss();
 	void initEnemies();
 	void initTextures();
 	void initVariables();
@@ -61,6 +69,7 @@ public:
 	void updateEnemies();
 	void updateCollision();
 	void updateCombat();
+	void bossCombat();
 
 
 };

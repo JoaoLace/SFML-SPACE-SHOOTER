@@ -57,6 +57,13 @@ void game::initPlayer()
 
 }
 
+void game::initBoss()
+{
+	boss = new Boss();
+}
+
+
+
 void game::initEnemies()
 {
 	spawnTimerMax = 50.f;
@@ -89,6 +96,7 @@ game::game()
 	initTextures();
 	initVariables();
 	initPlayer();
+	initBoss();
 	initEnemies();
 	initWorld();
 }
@@ -140,6 +148,14 @@ void game::update()
 	updateGui();
 	updateWorld();
 
+	if (points > 50 && bossAconteceu == false)
+	{
+		bossAlive = true;
+		boss->alive = true;
+		bossCombat();	
+		boss->update();
+			
+	}
 }
 
 void game::render()
@@ -163,6 +179,12 @@ void game::render()
 	{
 		window->draw(gameOverText);
 	}
+
+	if (bossAlive == true)
+	{
+		boss->render(*window);
+	}
+
 	window->display();
 }
 
@@ -310,7 +332,39 @@ void game::updateCombat()
 				
 				enemy_deleted = true;
 			}
+			
 		}
 	}
 }
 
+void game::bossCombat()
+{
+	for (int k = 0; k < bullets.size() && boss->alive == true; k++)
+	{
+		if (boss->getBounds().intersects(bullets[k]->getBounds()))
+		{
+			delete	bullets[k];
+			bullets.erase(bullets.begin() + k);
+			boss->hp--;
+			
+		}
+		/*if (bullets[k]->getBounds().top + bullets[k]->getBounds().height < 0.f)
+			{
+				delete bullets.at(k);
+				bullets.erase(bullets.begin() + k);
+			}*/
+	}
+	if (boss->hp <= 0)
+	{
+		boss->alive = false;
+		//delete boss;
+		//boss = nullptr;
+		bossAconteceu = true;
+		boss->setTexture();
+	}
+
+	if (boss->getBounds().intersects(Player->getGlobalBouncePlayer()))
+	{
+		Player->loseHp(100);
+	}
+}
